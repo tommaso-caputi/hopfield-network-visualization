@@ -4,25 +4,19 @@ import React, { useState } from 'react';
 import Grid from "@/components/Grid";
 
 export default function Home() {
-  const [patterns, setPatterns] = useState<number[][][]>([]);
+  const [patterns, setPatterns] = useState<number[][]>([]);
 
-  const handleSavePattern = (newPattern: number[][]) => {
+  const handleSavePattern = (newPattern: number[]) => {
     setPatterns([...patterns, newPattern]);
   };
 
   return (
     <div className="flex flex-col items-center">
-      <div className="w-3/6 border-2 mb-4">
+      <div className="w-9/12 sm:w-96 border-2 mb-4 aspect-square">
         <Grid onSavePattern={handleSavePattern} />
       </div>
       <div>
-        <h2>Saved Patterns</h2>
-        {patterns.map((pattern, index) => (
-          <div key={index} className="mb-2">
-            Pattern {index + 1}:
-            <pre>{JSON.stringify(pattern, null, 2)}</pre>
-          </div>
-        ))}
+        {/* Additional content can go here */}
       </div>
     </div>
   );
