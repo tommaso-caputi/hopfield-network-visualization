@@ -4,9 +4,9 @@ import React, { useState } from 'react';
 import Grid from "@/components/Grid";
 
 export default function Home() {
-  const [patterns, setPatterns] = useState<boolean[][][]>([]);
+  const [patterns, setPatterns] = useState<number[][][]>([]);
 
-  const handleSavePattern = (newPattern: boolean[][]) => {
+  const handleSavePattern = (newPattern: number[][]) => {
     setPatterns([...patterns, newPattern]);
   };
 

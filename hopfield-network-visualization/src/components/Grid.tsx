@@ -2,7 +2,7 @@
 
 import React, { useState } from 'react';
 
-type Grid = boolean[][];
+type Grid = number[][];
 
 interface GridComponentProps {
   onSavePattern: (pattern: Grid) => void;
@@ -11,14 +11,16 @@ interface GridComponentProps {
 const GridComponent: React.FC<GridComponentProps> = ({ onSavePattern }) => {
   const n = 28;
   const [grid, setGrid] = useState<Grid>(
-    Array.from({ length: n }, () => Array(n).fill(false))
+    Array.from({ length: n }, () => Array(n).fill(-1))
   );
   const [isDragging, setIsDragging] = useState(false);
 
   const toggleCell = (row: number, col: number) => {
     setGrid(prevGrid =>
       prevGrid.map((r, rowIndex) =>
-        r.map((cell, colIndex) => (rowIndex === row && colIndex === col ? !cell : cell))
+        r.map((cell, colIndex) =>
+          rowIndex === row && colIndex === col ? (cell === 1 ? -1 : 1) : cell
+        )
       )
     );
   };
@@ -34,7 +36,7 @@ const GridComponent: React.FC<GridComponentProps> = ({ onSavePattern }) => {
 
   const handleSavePattern = () => {
     onSavePattern(grid);
-    setGrid(Array.from({ length: n }, () => Array(n).fill(false)));
+    setGrid(Array.from({ length: n }, () => Array(n).fill(-1)));
   };
 
   return (
@@ -44,7 +46,7 @@ const GridComponent: React.FC<GridComponentProps> = ({ onSavePattern }) => {
           display: 'grid',
           gridTemplateColumns: `repeat(${n}, 1fr)`,
           width: '100%',
-          aspectRatio: '1 / 1'
+          aspectRatio: '1 / 1',
         }}
       >
         {grid.map((row, rowIndex) =>
@@ -54,7 +56,7 @@ const GridComponent: React.FC<GridComponentProps> = ({ onSavePattern }) => {
               onMouseDown={() => handleMouseDown(rowIndex, colIndex)}
               onMouseEnter={() => handleMouseEnter(rowIndex, colIndex)}
               style={{
-                backgroundColor: cell ? 'blue' : 'lightgray',
+                backgroundColor: cell === 1 ? 'blue' : 'lightgray',
                 border: '#ccc',
                 cursor: 'pointer',
                 aspectRatio: '1 / 1',
