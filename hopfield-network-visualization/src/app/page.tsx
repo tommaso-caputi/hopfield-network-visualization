@@ -1,17 +1,13 @@
 "use client";
 
-import React, { useState } from 'react';
+import Grid from '@/components/Grid';
+import React from 'react';
 
 export default function Home() {
-
   return (
     <div className="flex flex-col items-center">
-      <div className="w-9/12 sm:w-96 border-2 mb-4 aspect-square">
-
-      </div>
-      <div>
-
-      </div>
+      <h1 className="text-xl mb-4">Interactive Grid</h1>
+      <Grid gridSize={10} />
     </div>
   );
 }
