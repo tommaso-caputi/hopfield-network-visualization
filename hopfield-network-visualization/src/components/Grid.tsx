@@ -74,7 +74,7 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
     return (
         <div>
             <div
-                className="grid border mb-4"
+                className="grid mb-4"
                 style={{
                     gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
                 }}
