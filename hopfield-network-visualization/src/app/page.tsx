@@ -53,7 +53,7 @@ export default function Home() {
 
   return (
     <div className="p-2">
-      <div className="flex flex-col items-center justify-center">
+      <div className="flex flex-col items-center text-center">
         <h1 className="text-3xl mb-4 font-bold">Hopfield Network Visualization</h1>
         <Grid gridSize={gridSize} onSave={handleSave} weightMatrix={weightMatrix} />
       </div>
