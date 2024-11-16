@@ -14,7 +14,7 @@ const SavedGrids: React.FC<SavedGridsProps> = ({ savedGrids, gridSize }) => {
                     <div key={index}>
                         <p className="text-sm text-gray-600 mb-1">Grid {index + 1}:</p>
                         <div
-                            className="grid gap-1"
+                            className="grid"
                             style={{
                                 gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
                             }}
@@ -22,8 +22,7 @@ const SavedGrids: React.FC<SavedGridsProps> = ({ savedGrids, gridSize }) => {
                             {grid.map((value, cellIndex) => (
                                 <div
                                     key={cellIndex}
-                                    className={`w-4 h-4 ${value === -1 ? 'bg-one' : 'bg-minusone'
-                                        } border`}
+                                    className={`w-4 h-4 ${value === -1 ? 'bg-one' : 'bg-minusone'} `}
                                 ></div>
                             ))}
                         </div>

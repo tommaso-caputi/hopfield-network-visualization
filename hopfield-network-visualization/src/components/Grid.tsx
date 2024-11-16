@@ -6,7 +6,6 @@ interface GridProps {
 }
 
 const Grid: React.FC<GridProps> = ({ gridSize, onSave }) => {
-    // Create a 2D array to manage the grid values (-1 or 1)
     const [grid, setGrid] = useState(
         Array(gridSize)
             .fill(null)
@@ -37,20 +36,34 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave }) => {
         );
     };
 
-    // Convert grid state to a single-dimensional array and call onSave
+    // Save the grid and then clear it
     const saveGrid = () => {
         const flatGrid = grid.flat(); // Flatten the 2D array into a 1D array
         onSave(flatGrid);
+        clearGrid(); // Clear the grid after saving
+    };
+
+    // Restore the grid with random states
+    const restoreGrid = () => {
+        setGrid(
+            Array(gridSize)
+                .fill(null)
+                .map(() =>
+                    Array(gridSize)
+                        .fill(null)
+                        .map(() => (Math.random() > 0.5 ? 1 : -1))
+                )
+        );
     };
 
     return (
         <div>
             <div
-                className={`grid border mb-4`}
+                className="grid border mb-4"
                 style={{
                     gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
                 }}
-                onMouseLeave={() => setIsMouseDown(false)} // Prevent default dragging behavior
+                onMouseLeave={() => setIsMouseDown(false)}
             >
                 {grid.map((row, rowIndex) =>
                     row.map((value, colIndex) => (
@@ -64,7 +77,7 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave }) => {
                                 if (isMouseDown) toggleCellValue(rowIndex, colIndex);
                             }}
                             onMouseUp={() => setIsMouseDown(false)}
-                            className={`w-8 h-8 ${value === -1 ? 'bg-one' : 'bg-minusone'
+                            className={`w-8 h-8 border ${value === -1 ? 'bg-one' : 'bg-minusone'
                                 } cursor-pointer`}
                         ></div>
                     ))
@@ -82,6 +95,12 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave }) => {
                     className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
                 >
                     Clear
+                </button>
+                <button
+                    onClick={restoreGrid}
+                    className="px-4 py-2 bg-green-500 text-white rounded hover:bg-green-600"
+                >
+                    Restore
                 </button>
             </div>
         </div>
