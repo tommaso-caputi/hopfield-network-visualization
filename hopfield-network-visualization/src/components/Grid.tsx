@@ -14,6 +14,7 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
     );
 
     const [isMouseDown, setIsMouseDown] = useState(false); // Track if the mouse button is pressed
+    const [activeCell, setActiveCell] = useState<[number, number] | null>(null); // Track the last touched cell
 
     // Toggle a cell's value
     const toggleCellValue = (row: number, col: number) => {
@@ -25,6 +26,15 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
             }
             return newGrid;
         });
+    };
+
+    // Handle grid cell toggle for mouse and touch events
+    const handleInteraction = (row: number, col: number) => {
+        if (activeCell && activeCell[0] === row && activeCell[1] === col) {
+            return; // Avoid redundant toggles for the same cell
+        }
+        toggleCellValue(row, col);
+        setActiveCell([row, col]);
     };
 
     // Clear the grid to its initial state
@@ -79,6 +89,10 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
                     gridTemplateColumns: `repeat(${gridSize}, minmax(0, 1fr))`,
                 }}
                 onMouseLeave={() => setIsMouseDown(false)}
+                onTouchEnd={() => {
+                    setIsMouseDown(false);
+                    setActiveCell(null);
+                }}
             >
                 {grid.map((row, rowIndex) =>
                     row.map((value, colIndex) => (
@@ -86,12 +100,41 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
                             key={`${rowIndex}-${colIndex}`}
                             onMouseDown={() => {
                                 setIsMouseDown(true);
-                                toggleCellValue(rowIndex, colIndex);
+                                handleInteraction(rowIndex, colIndex);
                             }}
                             onMouseEnter={() => {
-                                if (isMouseDown) toggleCellValue(rowIndex, colIndex);
+                                if (isMouseDown) handleInteraction(rowIndex, colIndex);
                             }}
-                            onMouseUp={() => setIsMouseDown(false)}
+                            onMouseUp={() => {
+                                setIsMouseDown(false);
+                                setActiveCell(null);
+                            }}
+                            onTouchStart={(e) => {
+                                setIsMouseDown(true);
+                                handleInteraction(rowIndex, colIndex);
+                                e.preventDefault();
+                            }}
+                            onTouchMove={(e) => {
+                                if (isMouseDown) {
+                                    const touch = e.touches[0];
+                                    const target = document.elementFromPoint(
+                                        touch.clientX,
+                                        touch.clientY
+                                    ) as HTMLElement;
+                                    if (target?.dataset?.cell) {
+                                        const [row, col] = target.dataset.cell
+                                            .split('-')
+                                            .map(Number);
+                                        handleInteraction(row, col);
+                                    }
+                                }
+                                e.preventDefault();
+                            }}
+                            onTouchEnd={() => {
+                                setIsMouseDown(false);
+                                setActiveCell(null);
+                            }}
+                            data-cell={`${rowIndex}-${colIndex}`}
                             className={`w-8 h-8 border ${value === -1 ? 'bg-one' : 'bg-minusone'
                                 } cursor-pointer`}
                         ></div>
