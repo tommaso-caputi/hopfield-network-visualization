@@ -20,7 +20,10 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave }) => {
         setGrid((prevGrid) => {
             const newGrid = [...prevGrid];
             newGrid[row] = [...newGrid[row]];
-            newGrid[row][col] = newGrid[row][col] === -1 ? 1 : -1;
+            // Only toggle if the current value is -1
+            if (newGrid[row][col] === -1) {
+                newGrid[row][col] = 1;
+            }
             return newGrid;
         });
     };
@@ -61,7 +64,7 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave }) => {
                                 if (isMouseDown) toggleCellValue(rowIndex, colIndex);
                             }}
                             onMouseUp={() => setIsMouseDown(false)}
-                            className={`w-8 h-8 border ${value === -1 ? 'bg-one' : 'bg-minusone'
+                            className={`w-8 h-8 ${value === -1 ? 'bg-one' : 'bg-minusone'
                                 } cursor-pointer`}
                         ></div>
                     ))
