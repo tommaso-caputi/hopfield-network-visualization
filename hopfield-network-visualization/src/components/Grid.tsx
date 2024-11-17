@@ -80,6 +80,18 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
         }
         setGrid(restoredGrid);
     };
+    
+    React.useEffect(() => {
+        if (isMouseDown) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = 'auto';
+        }
+
+        return () => {
+            document.body.style.overflow = 'auto';
+        };
+    }, [isMouseDown]);
 
     return (
         <div>
@@ -110,27 +122,23 @@ const Grid: React.FC<GridProps> = ({ gridSize, onSave, weightMatrix }) => {
                                 setActiveCell(null);
                             }}
                             onTouchStart={(e) => {
+                                e.preventDefault(); // Prevent scrolling or refreshing
                                 setIsMouseDown(true);
                                 handleInteraction(rowIndex, colIndex);
-                                e.preventDefault();
                             }}
                             onTouchMove={(e) => {
+                                e.preventDefault(); // Prevent scrolling or refreshing
                                 if (isMouseDown) {
                                     const touch = e.touches[0];
-                                    const target = document.elementFromPoint(
-                                        touch.clientX,
-                                        touch.clientY
-                                    ) as HTMLElement;
+                                    const target = document.elementFromPoint(touch.clientX, touch.clientY) as HTMLElement;
                                     if (target?.dataset?.cell) {
-                                        const [row, col] = target.dataset.cell
-                                            .split('-')
-                                            .map(Number);
+                                        const [row, col] = target.dataset.cell.split('-').map(Number);
                                         handleInteraction(row, col);
                                     }
                                 }
-                                e.preventDefault();
                             }}
-                            onTouchEnd={() => {
+                            onTouchEnd={(e) => {
+                                e.preventDefault(); // Prevent scrolling or refreshing
                                 setIsMouseDown(false);
                                 setActiveCell(null);
                             }}
