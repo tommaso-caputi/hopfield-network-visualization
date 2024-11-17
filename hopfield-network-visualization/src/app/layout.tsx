@@ -14,7 +14,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Hopfield Network Visualiazion",
+  title: "Hopfield Network Visualization",
   description: "",
 };
 
