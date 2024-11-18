@@ -55,7 +55,7 @@ export default function Home() {
     <div className="p-2">
       <div className="flex flex-col items-center text-center">
         <h1 className="text-3xl mb-4 font-bold">Hopfield Network Visualization</h1>
-        <p className="mb-4 text-lg">
+        <p className="mb-4 text-lg text-left">
           This is an interactive visualization of a Hopfield Network, a type of recurrent neural network used as associative memory.
           Learn more about how Hopfield Networks work in a detailed blog post:{" "}
           <a
