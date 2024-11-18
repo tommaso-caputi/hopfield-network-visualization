@@ -9,7 +9,7 @@ const SavedPatterns: React.FC<savedPatternsProps> = ({ savedPatterns, gridSize }
     return (
         <div className="flex justify-start">
             <div className="mt-4">
-                <h2 className="text-lg font-medium mb-2">Saved Patterns</h2>
+                <h2 className="text-lg font-medium mb-2">Stored Patterns</h2>
                 <div className="flex flex-wrap gap-4">
                     {savedPatterns.map((grid, index) => (
                         <div key={index}>
