@@ -55,6 +55,18 @@ export default function Home() {
     <div className="p-2">
       <div className="flex flex-col items-center text-center">
         <h1 className="text-3xl mb-4 font-bold">Hopfield Network Visualization</h1>
+        <p className="mb-4 text-lg">
+          This is an interactive visualization of a Hopfield Network, a type of recurrent neural network used as associative memory.
+          Learn more about how Hopfield Networks work in a detailed blog post:{" "}
+          <a
+            href="https://www.tommasocaputi.com/blog/hopfieldnetwork"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-blue-500 underline hover:text-blue-700"
+          >
+            Hopfield Network Python implementation
+          </a>.
+        </p>
         <Grid gridSize={gridSize} onSave={handleSave} weightMatrix={weightMatrix} />
       </div>
       {savedPatterns.length > 0 && (
